@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CHUSKI — Pour · Sip · Repeat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════
+   TOKENS & RESET
+═══════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --beige:#F7F0E6;
+  --cream:#EFE4D2;
+  --sand:#D9C9B0;
+  --brown:#3B2712;
+  --mocha:#6B4226;
+  --caramel:#C07A3A;
+  --gold:#B8722A;
+  --espresso:#1C0F07;
+  --white:#FDFAF6;
+  --wa:#25D366;
+  --sp:cubic-bezier(.34,1.56,.64,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--beige);
+  color:var(--brown);
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.35;
+}
+
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:600;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 1.5rem;
+  background:rgba(247,240,230,.9);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(59,39,18,.07);
+  transition:box-shadow .3s;
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.45rem;font-weight:600;
+  letter-spacing:.14em;color:var(--brown);
+  text-decoration:none;line-height:1;
+}
+.nav-tagline{font-size:.55rem;letter-spacing:.28em;text-transform:uppercase;color:var(--mocha);opacity:.65}
+.nav-right{display:flex;align-items:center;gap:.8rem}
+.cart-btn{
+  position:relative;
+  background:var(--cream);border:1.5px solid rgba(59,39,18,.12);
+  width:42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;cursor:pointer;transition:all .25s;
+}
+.cart-btn:hover{background:var(--sand)}
+.cart-btn svg{width:19px;height:19px;stroke:var(--brown);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cart-badge{
+  position:absolute;top:-5px;right:-5px;
+  background:var(--caramel);color:#fff;
+  font-size:.55rem;font-weight:700;
+  width:18px;height:18px;border-radius:50%;
+  display:none;place-items:center;
+  border:2px solid var(--beige);
+}
+.cart-badge.show{display:grid}
+.nav-cta{
+  background:var(--brown);color:var(--beige);
+  border:none;padding:.58rem 1.3rem;border-radius:100px;
+  font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:500;
+  cursor:pointer;letter-spacing:.05em;transition:all .25s;white-space:nowrap;
+}
+.nav-cta:hover{background:var(--mocha);transform:translateY(-1px)}
+
+/* ═══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+.hero{
+  min-height:100svh;
+  display:flex;align-items:center;justify-content:center;
+  padding:7rem 1.5rem 3.5rem;
+  position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 70% 80% at 70% 30%, #F0E0C4 0%, var(--beige) 65%);
+}
+
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.blob-1{width:400px;height:400px;background:radial-gradient(circle,#DDB87A 0%,transparent 65%);top:-8%;left:-10%;opacity:.4;animation:drift 10s ease-in-out infinite alternate}
+.blob-2{width:300px;height:300px;background:radial-gradient(circle,#C07A3A 0%,transparent 65%);bottom:5%;right:-8%;opacity:.3;animation:drift 13s ease-in-out infinite alternate-reverse}
+.blob-3{width:220px;height:220px;background:radial-gradient(circle,#E8C88A 0%,transparent 65%);top:50%;left:40%;opacity:.25;animation:drift 8s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(18px,-18px) scale(1.06)}}
+
+.hero-inner{
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  gap:3rem;width:100%;max-width:1060px;
+  position:relative;z-index:2;
+}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(59,39,18,.06);
+  border:1px solid rgba(59,39,18,.11);
+  border-radius:100px;padding:.38rem 1rem;
+  font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--mocha);
+  margin-bottom:1.4rem;animation:fadeUp .8s ease both;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--caramel);animation:pdot 2s ease-in-out infinite}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,9vw,5.8rem);
+  font-weight:300;line-height:1.05;
+  color:var(--espresso);margin-bottom:1.1rem;
+  animation:fadeUp .9s .08s ease both;
+}
+.hero h1 em{
+  font-style:italic;color:var(--caramel);font-weight:400;
+}
+.hero-sub{
+  font-size:clamp(.9rem,2.2vw,1.05rem);
+  color:var(--mocha);font-weight:300;letter-spacing:.02em;
+  animation:fadeUp 1s .16s ease both;line-height:1.7;
+}
+.hero-btns{
+  display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;
+  margin-top:2rem;animation:fadeUp 1s .24s ease both;
+}
+.hero-proof{
+  display:flex;align-items:center;gap:.6rem;
+  font-size:.72rem;color:var(--mocha);opacity:.7;
+  animation:fadeUp 1s .32s ease both;
+}
+.proof-dots{display:flex}
+.proof-dot{width:22px;height:22px;border-radius:50%;background:var(--sand);border:2px solid var(--white);font-size:.62rem;display:grid;place-items:center}
+.proof-dot:not(:first-child){margin-left:-6px}
+
+/* ═══════════════════════════════════
+   3D BOTTLE SHOWCASE
+═══════════════════════════════════ */
+.bottles-stage{
+  display:flex;justify-content:center;
+  align-items:flex-end;gap:2rem;
+  perspective:900px;
+  animation:fadeUp 1s .4s ease both;
+  width:100%;
+}
+
+.bottle-scene{
+  display:flex;flex-direction:column;align-items:center;
+  cursor:pointer;
+  transition:transform .5s var(--sp);
+}
+.bottle-scene:nth-child(2){transform:translateY(-28px)}
+.bottle-scene:hover{transform:translateY(-20px)!important}
+.bottle-scene:nth-child(2):hover{transform:translateY(-44px)!important}
+
+/* the 3D bottle itself */
+.btl{
+  width:76px;
+  display:flex;flex-direction:column;align-items:center;
+  transform-style:preserve-3d;
+  transition:transform .5s var(--sp);
+  filter:drop-shadow(0 24px 32px rgba(59,39,18,.18)) drop-shadow(0 8px 12px rgba(59,39,18,.1));
+}
+.bottle-scene:hover .btl{transform:rotateY(-8deg) rotateX(4deg)}
+
+/* cap */
+.btl-cap{
+  width:26px;height:10px;
+  border-radius:3px 3px 0 0;
+  position:relative;z-index:3;
+  flex-shrink:0;
+}
+/* screw ring */
+.btl-ring{
+  width:30px;height:5px;
+  border-radius:1px;
+  position:relative;z-index:3;flex-shrink:0;
+  background:rgba(59,39,18,.15);
+}
+/* neck */
+.btl-neck{
+  width:22px;height:22px;
+  position:relative;z-index:2;flex-shrink:0;
+  clip-path:polygon(15% 0%,85% 0%,100% 100%,0% 100%);
+}
+/* main body */
+.btl-body{
+  width:76px;height:170px;
+  border-radius:8px 8px 16px 16px;
+  position:relative;overflow:hidden;flex-shrink:0;
+  /* glass look */
+  background:linear-gradient(160deg,
+    rgba(255,255,255,.55) 0%,
+    rgba(255,255,255,.2) 20%,
+    rgba(255,255,255,.08) 50%,
+    rgba(255,255,255,.18) 80%,
+    rgba(255,255,255,.45) 100%
+  );
+  box-shadow:
+    inset -6px 0 18px rgba(0,0,0,.06),
+    inset 3px 0 10px rgba(255,255,255,.5),
+    inset 0 -4px 12px rgba(0,0,0,.08);
+}
+/* liquid inside */
+.btl-liquid{
+  position:absolute;bottom:0;left:0;right:0;
+  border-radius:0 0 16px 16px;
+  transition:height .4s ease;
+}
+/* glass shine strip */
+.btl-shine{
+  position:absolute;top:0;left:9px;
+  width:11px;height:100%;
+  background:linear-gradient(180deg,rgba(255,255,255,.6) 0%,rgba(255,255,255,.12) 50%,transparent 100%);
+  border-radius:0 0 4px 4px;
+}
+/* secondary shine */
+.btl-shine2{
+  position:absolute;top:0;right:7px;
+  width:5px;height:60%;
+  background:linear-gradient(180deg,rgba(255,255,255,.3) 0%,transparent 100%);
+  border-radius:2px;
+}
+/* paper label */
+.btl-label{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:56px;
+  background:rgba(253,250,246,.93);
+  border-radius:5px;
+  padding:.6rem .35rem .5rem;
+  box-shadow:
+    0 2px 8px rgba(59,39,18,.1),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  text-align:center;
+  border:0.5px solid rgba(59,39,18,.06);
+}
+.lbl-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:6px;font-weight:600;letter-spacing:1.5px;
+  color:#2A1A0E;text-transform:uppercase;display:block;
+}
+.lbl-rule{width:80%;height:.5px;background:#D9C9B0;margin:.3rem auto .3rem}
+.lbl-flavor{
+  font-family:'Cormorant Garamond',serif;
+  font-size:6px;font-style:italic;
+  color:#6B4226;line-height:1.4;display:block;
+}
+.lbl-sf{
+  display:inline-block;margin-top:.3rem;
+  font-family:'DM Sans',sans-serif;
+  font-size:4px;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--caramel);
+  border:.5px solid rgba(192,122,58,.35);
+  border-radius:2px;padding:1.5px 3.5px;
+}
+
+/* bottle color variants */
+.btl-vanilla .btl-cap{background:linear-gradient(135deg,#C4A070,#9A7040)}
+.btl-vanilla .btl-neck{background:linear-gradient(180deg,#C4A070,#B09050)}
+.btl-vanilla .btl-liquid{background:linear-gradient(180deg,rgba(210,168,95,.5) 0%,rgba(195,148,70,.88) 100%)}
+
+.btl-tiramisu .btl-cap{background:linear-gradient(135deg,#8B6035,#6B4018)}
+.btl-tiramisu .btl-neck{background:linear-gradient(180deg,#8B6035,#7A5025)}
+.btl-tiramisu .btl-liquid{background:linear-gradient(180deg,rgba(130,80,40,.45) 0%,rgba(95,52,18,.88) 100%)}
+
+.btl-hazelnut .btl-cap{background:linear-gradient(135deg,#7A5228,#5A3210)}
+.btl-hazelnut .btl-neck{background:linear-gradient(180deg,#7A5228,#6A4218)}
+.btl-hazelnut .btl-liquid{background:linear-gradient(180deg,rgba(110,65,25,.45) 0%,rgba(72,38,10,.88) 100%)}
+
+/* info below bottle */
+.btl-info{margin-top:1.2rem;text-align:center}
+.btl-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--espresso);line-height:1.2}
+.btl-sub{font-size:.58rem;color:var(--caramel);letter-spacing:.15em;text-transform:uppercase;margin-top:.28rem;font-weight:400}
+.btl-add{
+  margin-top:.75rem;
+  background:var(--brown);color:var(--beige);
+  border:none;padding:.42rem 1.1rem;border-radius:100px;
+  font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:500;
+  cursor:pointer;letter-spacing:.06em;text-transform:uppercase;
+  transition:all .25s var(--sp);white-space:nowrap;
+}
+.btl-add:hover{background:var(--mocha);transform:translateY(-2px);box-shadow:0 6px 18px rgba(59,39,18,.2)}
+
+/* center badge */
+.btl-center-badge{
+  position:absolute;top:-12px;right:-10px;
+  background:var(--caramel);color:#fff;
+  font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.22rem .55rem;border-radius:100px;
+  font-family:'DM Sans',sans-serif;font-weight:500;
+  box-shadow:0 2px 8px rgba(192,122,58,.4);
+  white-space:nowrap;
+  z-index:20;
+  pointer-events:none;
+}
+
+/* ═══════════════════════════════════
+   BUTTONS
+═══════════════════════════════════ */
+.btn-primary{
+  background:var(--brown);color:var(--white);
+  padding:.82rem 1.9rem;border-radius:100px;
+  font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;
+  cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;
+  border:2px solid var(--brown);transition:all .3s var(--sp);text-decoration:none;
+}
+.btn-primary:hover{background:var(--mocha);border-color:var(--mocha);transform:translateY(-2px);box-shadow:0 8px 24px rgba(59,39,18,.2)}
+.btn-ghost{
+  background:transparent;color:var(--brown);
+  padding:.82rem 1.9rem;border-radius:100px;
+  font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:400;
+  cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;
+  border:1.5px solid rgba(59,39,18,.28);transition:all .25s;text-decoration:none;
+}
+.btn-ghost:hover{border-color:var(--brown);background:rgba(59,39,18,.05)}
+.btn-wa{
+  display:inline-flex;align-items:center;gap:.7rem;
+  background:var(--wa);color:#fff;
+  padding:.95rem 2.2rem;border-radius:100px;
+  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;
+  cursor:pointer;border:none;
+  transition:all .3s var(--sp);box-shadow:0 4px 20px rgba(37,211,102,.32);
+}
+.btn-wa:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(37,211,102,.45)}
+.btn-wa svg{width:21px;height:21px;fill:#fff;flex-shrink:0}
+
+/* ═══════════════════════════════════
+   TICKER
+═══════════════════════════════════ */
+.ticker-wrap{background:var(--brown);overflow:hidden;padding:.75rem 0;white-space:nowrap}
+.ticker-inner{display:inline-flex;gap:2.5rem;animation:ticker 22s linear infinite}
+.ticker-inner span{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--beige)}
+.ticker-inner .dot{color:var(--caramel)}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════
+   SECTIONS
+═══════════════════════════════════ */
+section{padding:5.5rem 1.5rem}
+.s-label{font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--caramel);margin-bottom:.7rem;display:block}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,3.4rem);font-weight:300;line-height:1.12;color:var(--espresso)}
+.s-title em{font-style:italic;color:var(--caramel)}
+
+/* ═══════════════════════════════════
+   PRODUCTS
+═══════════════════════════════════ */
+.products{background:var(--white)}
+.products-grid{display:grid;grid-template-columns:1fr;gap:1.3rem;margin-top:2.8rem}
+.product-card{
+  background:var(--beige);border-radius:24px;
+  padding:2rem 1.6rem;
+  border:1px solid rgba(59,39,18,.07);
+  position:relative;overflow:hidden;
+  transition:all .38s var(--sp);cursor:pointer;
+}
+.product-card::before{
+  content:'';position:absolute;top:-45px;right:-45px;
+  width:140px;height:140px;border-radius:50%;
+  opacity:.14;transition:transform .4s,opacity .4s;
+}
+.product-card:nth-child(1)::before{background:#C07A3A}
+.product-card:nth-child(2)::before{background:#7A4A20}
+.product-card:nth-child(3)::before{background:#A07040}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(59,39,18,.1)}
+.product-card:hover::before{transform:scale(1.5);opacity:.22}
+
+.pc-top{display:flex;align-items:flex-start;gap:1.1rem;margin-bottom:1rem}
+.pc-icon{
+  width:62px;height:62px;border-radius:18px;
+  flex-shrink:0;background:var(--white);
+  border:1px solid rgba(59,39,18,.07);
+  display:grid;place-items:center;font-size:1.9rem;
+  box-shadow:0 2px 12px rgba(59,39,18,.06);
+}
+.pc-flavor{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--espresso);line-height:1.1;margin-bottom:.3rem}
+.pc-sf{display:inline-block;font-size:.57rem;letter-spacing:.15em;text-transform:uppercase;color:var(--caramel);background:rgba(192,122,58,.1);border:1px solid rgba(192,122,58,.2);padding:.2rem .6rem;border-radius:100px}
+.pc-desc{font-size:.81rem;color:var(--mocha);line-height:1.65;margin-bottom:1.2rem;font-weight:300}
+.pc-prices{display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.pc-price{display:flex;align-items:baseline;gap:.28rem}
+.pc-price-amt{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--brown)}
+.pc-price-size{font-size:.65rem;color:var(--mocha);opacity:.55;letter-spacing:.05em}
+.pc-div{width:1px;height:20px;background:rgba(59,39,18,.12)}
+.pc-btn{
+  width:100%;background:var(--brown);color:var(--beige);
+  border:none;padding:.72rem 1rem;border-radius:12px;
+  font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.45rem;
+  transition:all .25s;
+}
+.pc-btn:hover{background:var(--mocha)}
+.pc-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ═══════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════ */
+.how{background:var(--cream)}
+.steps{display:grid;grid-template-columns:1fr;gap:0;margin-top:2.8rem}
+.step{
+  display:flex;align-items:flex-start;gap:1.2rem;
+  padding:2rem 0;
+  border-bottom:1px solid rgba(59,39,18,.1);
+  opacity:0;transform:translateY(18px);transition:all .55s ease;
+}
+.step.visible{opacity:1;transform:translateY(0)}
+.step:last-child{border-bottom:none}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--sand);line-height:1;flex-shrink:0;width:2.5rem}
+.step-icon{font-size:1.8rem;flex-shrink:0;background:var(--white);width:52px;height:52px;border-radius:14px;display:grid;place-items:center;box-shadow:0 2px 10px rgba(59,39,18,.07)}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--espresso);margin-bottom:.2rem}
+.step-text{font-size:.82rem;color:var(--mocha);line-height:1.65;font-weight:300}
+
+/* ═══════════════════════════════════
+   BENEFITS
+═══════════════════════════════════ */
+.benefits-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.8rem}
+.benefit-card{
+  background:var(--white);border-radius:20px;padding:1.4rem 1.2rem;
+  border:1px solid rgba(59,39,18,.06);
+  opacity:0;transform:translateY(16px);transition:all .55s ease;
+}
+.benefit-card.visible{opacity:1;transform:translateY(0)}
+.benefit-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(59,39,18,.08)}
+.benefit-icon{font-size:1.8rem;margin-bottom:.7rem;display:block}
+.benefit-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--espresso);margin-bottom:.25rem}
+.benefit-text{font-size:.77rem;color:var(--mocha);line-height:1.6;font-weight:300}
+.benefit-card.wide{grid-column:1/-1;display:flex;gap:1rem;align-items:center}
+.benefit-card.wide .benefit-icon{margin:0;font-size:2.2rem;flex-shrink:0}
+
+/* ═══════════════════════════════════
+   REVIEWS
+═══════════════════════════════════ */
+.reviews{background:var(--espresso)}
+.reviews .s-label{color:var(--caramel)}
+.reviews .s-title{color:var(--white)}
+.reviews-grid{display:grid;grid-template-columns:1fr;gap:1.1rem;margin-top:2.8rem}
+.review-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:1.5rem;transition:all .3s}
+.review-card:hover{background:rgba(255,255,255,.09);transform:translateY(-2px)}
+.rv-stars{color:var(--caramel);font-size:.88rem;margin-bottom:.75rem}
+.rv-text{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-style:italic;color:rgba(247,240,230,.88);line-height:1.65;margin-bottom:1rem}
+.rv-author{display:flex;align-items:center;gap:.75rem}
+.rv-avatar{width:34px;height:34px;border-radius:50%;background:rgba(192,122,58,.25);border:1px solid rgba(192,122,58,.35);display:grid;place-items:center;font-size:.9rem}
+.rv-name{font-size:.78rem;color:var(--sand);font-weight:500}
+.rv-handle{font-size:.67rem;color:rgba(217,201,176,.4)}
+.rv-v{margin-left:auto;font-size:.56rem;color:var(--caramel);letter-spacing:.1em;text-transform:uppercase}
+
+/* ═══════════════════════════════════
+   CTA
+═══════════════════════════════════ */
+.cta-section{background:var(--cream);text-align:center}
+.cta-section .s-title{font-size:clamp(2rem,7vw,3.5rem);margin-bottom:.9rem}
+.cta-section p{font-size:.92rem;color:var(--mocha);margin-bottom:2.2rem;line-height:1.65;font-weight:300}
+.cta-note{display:block;margin-top:1rem;font-size:.68rem;color:var(--mocha);opacity:.5;letter-spacing:.14em;text-transform:uppercase}
+
+footer{background:var(--espresso);color:rgba(247,240,230,.4);text-align:center;padding:2rem 1.5rem;font-size:.72rem;letter-spacing:.1em}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;color:var(--beige);letter-spacing:.22em;display:block;margin-bottom:.35rem}
+
+/* floating cart btn */
+.float-cart{
+  position:fixed;bottom:1.4rem;right:1.4rem;z-index:700;
+  width:54px;height:54px;border-radius:50%;
+  background:var(--brown);
+  display:grid;place-items:center;cursor:pointer;border:none;
+  box-shadow:0 4px 20px rgba(59,39,18,.35);
+  animation:pulse-cart 3s ease-in-out infinite;
+  transition:transform .3s var(--sp);
+}
+.float-cart:hover{transform:scale(1.1)}
+.float-cart svg{width:24px;height:24px;stroke:var(--beige);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pulse-cart{0%,100%{box-shadow:0 4px 20px rgba(59,39,18,.35)}50%{box-shadow:0 4px 28px rgba(59,39,18,.55),0 0 0 8px rgba(59,39,18,.07)}}
+
+/* ═══════════════════════════════════
+   PICKER MODAL
+═══════════════════════════════════ */
+.picker-backdrop{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(28,15,7,.5);backdrop-filter:blur(6px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.picker-backdrop.open{opacity:1;pointer-events:all}
+.picker{
+  background:var(--white);width:100%;max-width:460px;
+  border-radius:28px 28px 0 0;
+  padding:0 1.7rem 2.4rem;
+  transform:translateY(100%);
+  transition:transform .42s var(--sp);
+  max-height:92svh;overflow-y:auto;
+  position:relative;
+}
+.picker-backdrop.open .picker{transform:translateY(0)}
+.picker-handle{width:38px;height:3.5px;border-radius:2px;background:var(--sand);margin:1.1rem auto 1.8rem}
+.picker-close{position:absolute;top:1.1rem;right:1.4rem;background:var(--cream);border:none;cursor:pointer;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.92rem;color:var(--mocha);transition:background .2s}
+.picker-close:hover{background:var(--sand)}
+.picker-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem;padding-bottom:1.4rem;border-bottom:1px solid rgba(59,39,18,.08)}
+.picker-emoji{width:60px;height:60px;border-radius:16px;background:var(--beige);border:1px solid rgba(59,39,18,.07);display:grid;place-items:center;font-size:2rem;flex-shrink:0}
+.picker-name{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:var(--espresso);line-height:1.1}
+.picker-sub{font-size:.7rem;color:var(--mocha);margin-top:.2rem}
+.p-label{font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--caramel);margin-bottom:.75rem;display:block}
+.size-btns{display:flex;gap:.7rem;margin-bottom:1.6rem}
+.size-btn{flex:1;padding:.75rem 0;border-radius:14px;border:1.5px solid rgba(59,39,18,.16);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;color:var(--brown);transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.1rem}
+.size-btn .sml{font-size:1rem;font-weight:600;color:var(--espresso)}
+.size-btn .spr{font-size:.58rem;color:var(--mocha);opacity:.55}
+.size-btn.active{border-color:var(--brown);background:var(--brown);color:var(--beige)}
+.size-btn.active .sml{color:var(--beige)}
+.size-btn.active .spr{color:var(--sand);opacity:.8}
+.size-btn:hover:not(.active){border-color:var(--mocha);background:rgba(59,39,18,.04)}
+.qty-row{display:flex;align-items:center;gap:1.2rem;margin-bottom:1.6rem}
+.qty-btn{width:42px;height:42px;border-radius:12px;border:1.5px solid rgba(59,39,18,.16);background:transparent;cursor:pointer;font-size:1.4rem;color:var(--brown);display:grid;place-items:center;transition:all .2s;flex-shrink:0;font-family:'DM Sans',sans-serif;line-height:1}
+.qty-btn:hover{border-color:var(--brown);background:rgba(59,39,18,.05)}
+.qty-btn:active{transform:scale(.9)}
+.qty-num{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:600;color:var(--espresso);min-width:2.5rem;text-align:center;line-height:1}
+.qty-sub{font-size:.62rem;color:var(--mocha);text-align:center;margin-top:.1rem;font-weight:300}
+.picker-confirm{
+  width:100%;padding:.92rem;
+  background:var(--brown);color:var(--beige);
+  border:none;border-radius:14px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  transition:all .3s var(--sp);letter-spacing:.04em;
+}
+.picker-confirm:hover{background:var(--mocha);transform:translateY(-2px);box-shadow:0 8px 24px rgba(59,39,18,.18)}
+.picker-confirm svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ═══════════════════════════════════
+   CART DRAWER
+═══════════════════════════════════ */
+.cart-backdrop{position:fixed;inset:0;z-index:900;background:rgba(28,15,7,.4);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-backdrop.open{opacity:1;pointer-events:all}
+.cart-drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:901;
+  width:min(100vw,440px);
+  background:var(--white);
+  border-left:1px solid rgba(59,39,18,.08);
+  box-shadow:-8px 0 40px rgba(59,39,18,.1);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .42s var(--sp);
+}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 1.6rem;border-bottom:1px solid rgba(59,39,18,.08);flex-shrink:0}
+.cart-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--espresso)}
+.cart-title-count{font-family:'DM Sans',sans-serif;font-size:.72rem;color:var(--mocha);margin-left:.5rem;font-weight:300}
+.cart-x{background:var(--cream);border:none;cursor:pointer;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:.9rem;color:var(--mocha);transition:background .2s}
+.cart-x:hover{background:var(--sand)}
+.cart-items{flex:1;overflow-y:auto;padding:1.2rem 1.6rem;display:flex;flex-direction:column;gap:.85rem}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:.9rem;text-align:center}
+.cart-empty-icon{font-size:3rem;opacity:.3}
+.cart-empty-text{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--mocha);font-style:italic}
+.cart-empty-sub{font-size:.76rem;color:var(--mocha);opacity:.5;font-weight:300}
+.cart-item{background:var(--beige);border:1px solid rgba(59,39,18,.07);border-radius:16px;padding:1rem 1.1rem;display:flex;align-items:center;gap:.9rem;position:relative;transition:border-color .2s}
+.cart-item:hover{border-color:rgba(59,39,18,.15)}
+.ci-emoji{font-size:1.7rem;flex-shrink:0}
+.ci-info{flex:1;min-width:0}
+.ci-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--espresso);line-height:1.2}
+.ci-detail{font-size:.7rem;color:var(--mocha);margin-top:.15rem;opacity:.65;font-weight:300}
+.ci-right{display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;flex-shrink:0}
+.ci-price{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--brown)}
+.ci-qty-row{display:flex;align-items:center;gap:.35rem}
+.ci-qbtn{width:26px;height:26px;border-radius:8px;border:1px solid rgba(59,39,18,.18);background:transparent;cursor:pointer;font-size:1rem;color:var(--brown);display:grid;place-items:center;transition:all .2s;line-height:1}
+.ci-qbtn:hover{background:var(--sand);border-color:var(--brown)}
+.ci-qnum{font-size:.88rem;font-weight:600;color:var(--espresso);min-width:1.2rem;text-align:center}
+.ci-remove{position:absolute;top:.6rem;right:.6rem;background:none;border:none;cursor:pointer;font-size:.75rem;color:rgba(59,39,18,.2);transition:color .2s;padding:.1rem}
+.ci-remove:hover{color:var(--mocha)}
+.cart-footer{padding:1.3rem 1.6rem;border-top:1px solid rgba(59,39,18,.08);flex-shrink:0;background:var(--white)}
+.total-row{display:flex;justify-content:space-between;font-size:.8rem;color:var(--mocha);padding:.2rem 0;font-weight:300}
+.total-row.grand{border-top:1px solid rgba(59,39,18,.1);margin-top:.5rem;padding-top:.7rem}
+.total-row.grand span:first-child{font-size:.84rem;color:var(--brown);font-weight:400}
+.total-row.grand span:last-child{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--espresso)}
+.checkout-btn{width:100%;padding:.95rem;background:var(--wa);color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.6rem;transition:all .3s var(--sp);box-shadow:0 4px 16px rgba(37,211,102,.25)}
+.checkout-btn:hover{background:#1ebe5d;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.4)}
+.checkout-btn:disabled{background:var(--sand);color:rgba(59,39,18,.35);box-shadow:none;cursor:not-allowed;transform:none}
+.checkout-btn svg{width:19px;height:19px;fill:#fff}
+
+/* ═══════════════════════════════════
+   CHECKOUT MODAL
+═══════════════════════════════════ */
+.co-backdrop{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(28,15,7,.55);backdrop-filter:blur(8px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.co-backdrop.open{opacity:1;pointer-events:all}
+.co-modal{
+  background:var(--white);width:100%;max-width:500px;
+  border-radius:28px 28px 0 0;
+  padding:0 1.8rem 2.6rem;
+  transform:translateY(100%);
+  transition:transform .44s var(--sp);
+  max-height:95svh;overflow-y:auto;
+}
+.co-backdrop.open .co-modal{transform:translateY(0)}
+.co-handle{width:38px;height:3.5px;background:var(--sand);border-radius:2px;margin:1.1rem auto 1.8rem}
+.co-title{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:var(--espresso);margin-bottom:.3rem}
+.co-sub{font-size:.76rem;color:var(--mocha);margin-bottom:1.6rem;font-weight:300}
+.co-summary{background:var(--beige);border:1px solid rgba(59,39,18,.08);border-radius:14px;padding:1.1rem 1.3rem;margin-bottom:1.4rem}
+.co-item-row{display:flex;justify-content:space-between;align-items:center;font-size:.79rem;color:var(--mocha);padding:.28rem 0;font-weight:300}
+.co-item-name{display:flex;align-items:center;gap:.45rem;flex:1}
+.co-tag{font-size:.62rem;background:var(--cream);color:var(--mocha);padding:.12rem .4rem;border-radius:4px;letter-spacing:.05em;font-family:'DM Sans',sans-serif}
+.co-sf-tag{font-size:.62rem;background:rgba(192,122,58,.1);color:var(--caramel);padding:.12rem .4rem;border-radius:4px}
+.co-div{border:none;border-top:1px solid rgba(59,39,18,.1);margin:.5rem 0}
+.co-total-row{display:flex;justify-content:space-between;align-items:center}
+.co-total-label{font-size:.73rem;color:var(--mocha);font-weight:300}
+.co-total-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--espresso)}
+.co-label{font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--caramel);margin-bottom:.6rem;display:block;margin-top:1.2rem}
+.co-input{width:100%;background:var(--beige);border:1.5px solid rgba(59,39,18,.14);border-radius:12px;padding:.8rem 1rem;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--brown);outline:none;transition:border-color .2s;resize:none}
+.co-input::placeholder{color:var(--sand)}
+.co-input:focus{border-color:var(--caramel)}
+.co-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.co-submit{width:100%;padding:1rem;background:var(--wa);color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.6rem;transition:all .3s var(--sp);margin-top:1.5rem;box-shadow:0 4px 16px rgba(37,211,102,.25)}
+.co-submit:hover{background:#1ebe5d;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.4)}
+.co-submit svg{width:20px;height:20px;fill:#fff}
+.co-note{text-align:center;font-size:.63rem;color:var(--mocha);opacity:.45;margin-top:.65rem;letter-spacing:.08em}
+
+/* ═══════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(59,39,18,.15);border-radius:2px}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+/* ── MOBILE FIRST FIXES ── */
+@media(max-width:479px){
+  /* bottles smaller on small phones */
+  .bottles-stage{gap:.8rem;padding:0 .5rem}
+  .btl{width:60px}
+  .btl-body{width:60px;height:138px;border-radius:6px 6px 12px 12px}
+  .btl-cap{width:20px;height:8px}
+  .btl-ring{width:24px}
+  .btl-neck{width:17px;height:17px}
+  .btl-label{width:44px;padding:.4rem .25rem .35rem}
+  .lbl-brand{font-size:5px;letter-spacing:1px}
+  .lbl-flavor{font-size:5px}
+  .lbl-sf{font-size:3.5px}
+  .btl-shine{left:7px;width:9px}
+  .btl-shine2{right:5px;width:4px}
+  .btl-info{margin-top:.8rem}
+  .btl-name{font-size:.82rem}
+  .btl-sub{font-size:.5rem}
+  .btl-add{font-size:.58rem;padding:.35rem .75rem}
+  .btl-center-badge{font-size:.44rem;padding:.18rem .42rem;top:-8px;right:-5px}
+  .bottle-scene:nth-child(2){transform:translateY(-16px)}
+
+  /* hero text */
+  .hero{padding:6rem 1.2rem 3rem}
+  .hero h1{font-size:2.6rem}
+  .hero-badge{font-size:.58rem;padding:.32rem .8rem}
+  .hero-btns{gap:.6rem}
+  .btn-primary,.btn-ghost{padding:.7rem 1.4rem;font-size:.8rem}
+
+  /* sections */
+  section{padding:4rem 1.2rem}
+  .s-title{font-size:1.9rem}
+
+  /* products */
+  .pc-flavor{font-size:1.3rem}
+  .pc-prices{gap:.7rem}
+  .pc-price-amt{font-size:1.1rem}
+
+  /* benefits */
+  .benefits-grid{gap:.75rem}
+  .benefit-card{padding:1.2rem 1rem}
+  .benefit-title{font-size:.95rem}
+  .benefit-text{font-size:.72rem}
+
+  /* reviews */
+  .rv-text{font-size:.95rem}
+
+  /* nav */
+  nav{padding:1rem 1.2rem}
+  .nav-logo{font-size:1.25rem}
+}
+
+@media(min-width:480px){
+  .products-grid{grid-template-columns:1fr 1fr}
+  .product-card:last-child{grid-column:1/-1;max-width:340px;margin:0 auto;width:100%}
+}
+@media(min-width:640px){
+  .products-grid{grid-template-columns:repeat(3,1fr)}
+  .product-card:last-child{grid-column:auto;max-width:none}
+  .reviews-grid{grid-template-columns:1fr 1fr}
+}
+@media(min-width:768px){
+  nav{padding:1.2rem 2.5rem}
+  section{padding:6.5rem 2.5rem}
+  .hero{padding:8rem 2.5rem 4rem}
+  .hero-inner{flex-direction:row;text-align:left;align-items:center;gap:3.5rem}
+  .hero-inner>div:first-child{flex:1}
+  .hero-btns{justify-content:flex-start}
+  .hero-proof{justify-content:flex-start}
+  .bottles-stage{justify-content:center}
+  .steps{grid-template-columns:repeat(3,1fr);gap:0}
+  .step{flex-direction:column;border-bottom:none!important;border-right:1px solid rgba(59,39,18,.1);padding:0 2rem 0 0}
+  .step:last-child{border-right:none;padding:0 0 0 2rem}
+  .step:nth-child(2){padding:0 2rem}
+  .benefits-grid{grid-template-columns:repeat(3,1fr)}
+  .benefit-card.wide{grid-column:auto;flex-direction:column}
+  .reviews-grid{grid-template-columns:repeat(3,1fr)}
+  .picker{border-radius:28px;align-self:center;margin:1rem}
+  .picker-backdrop{align-items:center}
+  .co-modal{border-radius:28px;align-self:center;margin:1rem}
+  .co-backdrop{align-items:center}
+}
+@media(min-width:1024px){.btl-body{height:190px}.btl{width:86px}.bottles-stage{gap:2.5rem}}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="main-nav">
+  <a class="nav-logo" href="#">
+    CHUSKI
+    <div class="nav-tagline">Pour · Sip · Repeat</div>
+  </a>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="openCart()" aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <button class="nav-cta" onclick="openCart()">View Cart</button>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-inner">
+    <!-- TEXT SIDE -->
+    <div>
+      <h1>Make <em>café&#8209;style</em><br>coffee at home ☕</h1>
+      <p class="hero-sub">Premium flavor drops for your daily brew.<br>Just a few drops — and your coffee changes instantly.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openCart()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Shop Flavors
+        </button>
+        <a class="btn-ghost" href="#how">How it works ↓</a>
+      </div>
+      <div class="hero-proof" style="margin-top:1.5rem">
+        <div class="proof-dots">
+          <div class="proof-dot">☕</div>
+          <div class="proof-dot">🌿</div>
+          <div class="proof-dot">🌰</div>
+        </div>
+        <span>Pick flavors · Add to cart · Order via WhatsApp</span>
+      </div>
+    </div>
+
+    <!-- 3D BOTTLES SIDE -->
+    <div>
+      <div class="bottles-stage">
+
+        <!-- FRENCH VANILLA -->
+        <div class="bottle-scene" onclick="openPicker('French Vanilla','🌿',true)">
+          <div style="position:relative">
+            <div class="btl btl-vanilla">
+              <div class="btl-cap"></div>
+              <div class="btl-ring"></div>
+              <div class="btl-neck"></div>
+              <div class="btl-body">
+                <div class="btl-liquid" style="height:40%"></div>
+                <div class="btl-shine"></div>
+                <div class="btl-shine2"></div>
+                <div class="btl-label">
+                  <span class="lbl-brand">Chuski</span>
+                  <div class="lbl-rule"></div>
+                  <span class="lbl-flavor">French<br>Vanilla</span>
+                  <span class="lbl-sf">Sugar Free</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btl-info">
+            <div class="btl-name">French Vanilla</div>
+            <div class="btl-sub">Sugar Free</div>
+            <button class="btl-add" onclick="event.stopPropagation();openPicker('French Vanilla','🌿',true)">+ Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- TIRAMISU (center hero) -->
+        <div class="bottle-scene" onclick="openPicker('Tiramisu','☕',true)">
+          <div style="position:relative">
+            <div class="btl btl-tiramisu">
+              <div class="btl-cap"></div>
+              <div class="btl-ring"></div>
+              <div class="btl-neck"></div>
+              <div class="btl-body">
+                <div class="btl-liquid" style="height:56%"></div>
+                <div class="btl-shine"></div>
+                <div class="btl-shine2"></div>
+                <div class="btl-label">
+                  <span class="lbl-brand">Chuski</span>
+                  <div class="lbl-rule"></div>
+                  <span class="lbl-flavor">Tiramisu</span>
+                  <span class="lbl-sf">Sugar Free</span>
+                </div>
+              </div>
+            </div>
+            <span class="btl-center-badge">⭐ Fan Fav</span>
+          </div>
+          <div class="btl-info">
+            <div class="btl-name">Tiramisu</div>
+            <div class="btl-sub">Sugar Free</div>
+            <button class="btl-add" onclick="event.stopPropagation();openPicker('Tiramisu','☕',true)">+ Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- HAZELNUT -->
+        <div class="bottle-scene" onclick="openPicker('Hazelnut','🌰',false)">
+          <div style="position:relative">
+            <div class="btl btl-hazelnut">
+              <div class="btl-cap"></div>
+              <div class="btl-ring"></div>
+              <div class="btl-neck"></div>
+              <div class="btl-body">
+                <div class="btl-liquid" style="height:66%"></div>
+                <div class="btl-shine"></div>
+                <div class="btl-shine2"></div>
+                <div class="btl-label">
+                  <span class="lbl-brand">Chuski</span>
+                  <div class="lbl-rule"></div>
+                  <span class="lbl-flavor">Hazelnut</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btl-info">
+            <div class="btl-name">Hazelnut</div>
+            <div class="btl-sub">Classic</div>
+            <button class="btl-add" onclick="event.stopPropagation();openPicker('Hazelnut','🌰',false)">+ Add to Cart</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner">
+    <span>Pour</span><span class="dot">·</span><span>Sip</span><span class="dot">·</span><span>Repeat</span><span class="dot">·</span>
+    <span>French Vanilla</span><span class="dot">·</span><span>Tiramisu</span><span class="dot">·</span><span>Hazelnut</span><span class="dot">·</span>
+    <span>30ml &amp; 50ml</span><span class="dot">·</span><span>Sugar Free Options</span><span class="dot">·</span><span>Café Style at Home</span><span class="dot">·</span>
+    <span>Pour</span><span class="dot">·</span><span>Sip</span><span class="dot">·</span><span>Repeat</span><span class="dot">·</span>
+    <span>French Vanilla</span><span class="dot">·</span><span>Tiramisu</span><span class="dot">·</span><span>Hazelnut</span><span class="dot">·</span>
+    <span>30ml &amp; 50ml</span><span class="dot">·</span><span>Sugar Free Options</span><span class="dot">·</span><span>Café Style at Home</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- ══════════ PRODUCTS ══════════ -->
+<section class="products" id="products">
+  <span class="s-label">Our Collection</span>
+  <h2 class="s-title">Small bottles.<br><em>Big difference.</em></h2>
+  <div class="products-grid">
+
+    <div class="product-card" onclick="openPicker('French Vanilla','🌿',true)">
+      <div class="pc-top">
+        <div class="pc-icon">🌿</div>
+        <div>
+          <div class="pc-flavor">French Vanilla</div>
+          <span class="pc-sf">✦ Sugar Free</span>
+        </div>
+      </div>
+      <p class="pc-desc">Smooth, creamy vanilla with a rich French twist. Transforms any basic coffee into a luxurious latte experience.</p>
+      <div class="pc-prices">
+        <div class="pc-price"><span class="pc-price-amt">₹199</span><span class="pc-price-size">/ 30ml</span></div>
+        <div class="pc-div"></div>
+        <div class="pc-price"><span class="pc-price-amt">₹299</span><span class="pc-price-size">/ 50ml</span></div>
+      </div>
+      <button class="pc-btn" onclick="event.stopPropagation();openPicker('French Vanilla','🌿',true)">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Add to Cart
+      </button>
+    </div>
+
+    <div class="product-card" onclick="openPicker('Tiramisu','☕',true)">
+      <div class="pc-top">
+        <div class="pc-icon">☕</div>
+        <div>
+          <div class="pc-flavor">Tiramisu</div>
+          <span class="pc-sf">✦ Sugar Free</span>
+        </div>
+      </div>
+      <p class="pc-desc">Inspired by the Italian classic. Deep espresso notes meet mascarpone sweetness for an indulgent morning ritual.</p>
+      <div class="pc-prices">
+        <div class="pc-price"><span class="pc-price-amt">₹199</span><span class="pc-price-size">/ 30ml</span></div>
+        <div class="pc-div"></div>
+        <div class="pc-price"><span class="pc-price-amt">₹299</span><span class="pc-price-size">/ 50ml</span></div>
+      </div>
+      <button class="pc-btn" onclick="event.stopPropagation();openPicker('Tiramisu','☕',true)">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Add to Cart
+      </button>
+    </div>
+
+    <div class="product-card" onclick="openPicker('Hazelnut','🌰',false)">
+      <div class="pc-top">
+        <div class="pc-icon">🌰</div>
+        <div>
+          <div class="pc-flavor">Hazelnut</div>
+        </div>
+      </div>
+      <p class="pc-desc">Toasty, nutty, warm. The timeless coffeehouse classic that pairs with every roast — hot espresso or cold brew.</p>
+      <div class="pc-prices">
+        <div class="pc-price"><span class="pc-price-amt">₹199</span><span class="pc-price-size">/ 30ml</span></div>
+        <div class="pc-div"></div>
+        <div class="pc-price"><span class="pc-price-amt">₹299</span><span class="pc-price-size">/ 50ml</span></div>
+      </div>
+      <button class="pc-btn" onclick="event.stopPropagation();openPicker('Hazelnut','🌰',false)">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Add to Cart
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="how" id="how">
+  <span class="s-label">The ritual</span>
+  <h2 class="s-title">Three steps to<br><em>café magic.</em></h2>
+  <div class="steps">
+    <div class="step"><div class="step-num">01</div><div class="step-icon">💧</div><div><div class="step-title">Add a few drops</div><p class="step-text">2–4 drops into any cup. Hot or cold, instant or filter — doesn't matter.</p></div></div>
+    <div class="step"><div class="step-num">02</div><div class="step-icon">🥄</div><div><div class="step-title">Stir gently</div><p class="step-text">One quick stir and the flavor blooms instantly through your coffee.</p></div></div>
+    <div class="step"><div class="step-num">03</div><div class="step-icon">🧋</div><div><div class="step-title">Sip & repeat</div><p class="step-text">Your daily brew, now something you actually look forward to every morning.</p></div></div>
+  </div>
+</section>
+
+<!-- ══════════ BENEFITS ══════════ -->
+<section id="benefits">
+  <span class="s-label">Why Chuski</span>
+  <h2 class="s-title">More taste,<br><em>less spend.</em></h2>
+  <div class="benefits-grid">
+    <div class="benefit-card"><span class="benefit-icon">💸</span><div class="benefit-title">Wallet Friendly</div><p class="benefit-text">A fraction of what you'd spend at a café, every single day.</p></div>
+    <div class="benefit-card"><span class="benefit-icon">⚡</span><div class="benefit-title">Instant</div><p class="benefit-text">No barista skills, no machines. Ready in seconds, always.</p></div>
+    <div class="benefit-card"><span class="benefit-icon">🛒</span><div class="benefit-title">Mix & Match</div><p class="benefit-text">Order multiple flavors together in one go. Your cart, your choice.</p></div>
+    <div class="benefit-card"><span class="benefit-icon">🌿</span><div class="benefit-title">Sugar Free</div><p class="benefit-text">Vanilla & Tiramisu have zero sugar. Full flavor, zero guilt.</p></div>
+    <div class="benefit-card wide"><span class="benefit-icon">☕</span><div><div class="benefit-title">Café-style taste, every morning at home</div><p class="benefit-text">Whether it's your 7am alarm coffee or a midnight craving — Chuski transforms it into something genuinely special. No rush, no queue, no ₹300 bill.</p></div></div>
+  </div>
+</section>
+
+<!-- ══════════ REVIEWS ══════════ -->
+<section class="reviews" id="reviews">
+  <span class="s-label">From the community</span>
+  <h2 class="s-title">They sipped.<br><em>They're obsessed.</em></h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">"The tiramisu flavor changed my morning routine. Ordered vanilla and tiramisu together — best decision ever. Feels like a proper café, in my pajamas."</p>
+      <div class="rv-author"><div class="rv-avatar">☕</div><div><div class="rv-name">Riya Sharma</div><div class="rv-handle">@riya.brews</div></div><span class="rv-v">✓ Verified</span></div>
+    </div>
+    <div class="review-card">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">"Ordered all 3 flavors in one go. Hazelnut in cold brew is honestly elite. Ordering on WhatsApp was stupidly easy — done in 2 minutes flat."</p>
+      <div class="rv-author"><div class="rv-avatar">🌿</div><div><div class="rv-name">Aanya Mehta</div><div class="rv-handle">@aanyasips</div></div><span class="rv-v">✓ Verified</span></div>
+    </div>
+    <div class="review-card">
+      <div class="rv-stars">★★★★★</div>
+      <p class="rv-text">"Got 2 hazelnut 50ml and 1 tiramisu 30ml. Arrived quickly, packaging is so cute. My whole family has a different favorite now. Worth every rupee."</p>
+      <div class="rv-author"><div class="rv-avatar">🌰</div><div><div class="rv-name">Karan Joshi</div><div class="rv-handle">@coffeewithjoshi</div></div><span class="rv-v">✓ Verified</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CTA ══════════ -->
+<section class="cta-section">
+  <span class="s-label">Ready to sip?</span>
+  <h2 class="s-title">Mix your flavors.<br><em>Place your order.</em></h2>
+  <p>Add multiple flavors to your cart, then confirm via WhatsApp.<br>Fast delivery · 30ml &amp; 50ml · Sugar Free options available.</p>
+  <button class="btn-wa" onclick="openCart()">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.899l6.188-1.458A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.008-1.374l-.359-.214-3.724.877.945-3.618-.234-.372A9.818 9.818 0 112 12 9.818 9.818 0 0112 21.818z"/></svg>
+    View Cart & Order
+  </button>
+  <span class="cta-note">Tap · Pick flavors · Checkout · Delivered to your door</span>
+</section>
+
+<footer>
+  <span class="footer-logo">CHUSKI</span>
+  <span>Pour · Sip · Repeat · @getchuski</span>
+  <div style="margin-top:.8rem;opacity:.35;font-size:.6rem;font-weight:300;">All flavors in 30ml &amp; 50ml · Made with ☕</div>
+</footer>
+
+<!-- floating cart -->
+<button class="float-cart" onclick="openCart()" aria-label="Open cart">
+  <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+</button>
+
+<!-- ══════════ PICKER MODAL ══════════ -->
+<div class="picker-backdrop" id="pickerBackdrop">
+  <div class="picker">
+    <div class="picker-handle"></div>
+    <button class="picker-close" onclick="closePicker()">✕</button>
+    <div class="picker-head">
+      <div class="picker-emoji" id="pickerEmoji">🌿</div>
+      <div>
+        <div class="picker-name" id="pickerName">French Vanilla</div>
+        <div class="picker-sub" id="pickerSub">Sugar Free · Coffee Flavor Drop</div>
+      </div>
+    </div>
+    <span class="p-label">Choose size</span>
+    <div class="size-btns">
+      <button class="size-btn active" id="pBtn30" onclick="pickSize('30ml')">
+        <span class="sml">30ml</span><span class="spr">₹199 · Try size</span>
+      </button>
+      <button class="size-btn" id="pBtn50" onclick="pickSize('50ml')">
+        <span class="sml">50ml</span><span class="spr">₹299 · Best value</span>
+      </button>
+    </div>
+    <span class="p-label">Quantity</span>
+    <div class="qty-row">
+      <button class="qty-btn" onclick="pickQty(-1)">−</button>
+      <div><div class="qty-num" id="pickerQty">1</div><div class="qty-sub">bottle(s)</div></div>
+      <button class="qty-btn" onclick="pickQty(1)">+</button>
+    </div>
+    <button class="picker-confirm" onclick="addToCart()">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Add to Cart
+    </button>
+  </div>
+</div>
+
+<!-- ══════════ CART DRAWER ══════════ -->
+<div class="cart-backdrop" id="cartBackdrop" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <div class="cart-title">Your Cart<span class="cart-title-count" id="cartCount"></span></div>
+    <button class="cart-x" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon">☕</div>
+      <div class="cart-empty-text">Your cart is empty</div>
+      <div class="cart-empty-sub">Add some flavors to get started</div>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div id="cartTotals"></div>
+    <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()" disabled>
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.899l6.188-1.458A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.008-1.374l-.359-.214-3.724.877.945-3.618-.234-.372A9.818 9.818 0 112 12 9.818 9.818 0 0112 21.818z"/></svg>
+      Checkout via WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- ══════════ CHECKOUT MODAL ══════════ -->
+<div class="co-backdrop" id="coBackdrop">
+  <div class="co-modal">
+    <div class="co-handle"></div>
+    <div class="co-title">Almost there! ☕</div>
+    <div class="co-sub">Review your order and enter your delivery details.</div>
+    <div class="co-summary" id="coSummary"></div>
+    <span class="co-label">Your Name</span>
+    <input class="co-input" id="coName" type="text" placeholder="e.g. Priya Sharma" autocomplete="name"/>
+    <span class="co-label">Phone Number</span>
+    <input class="co-input" id="coPhone" type="tel" placeholder="e.g. 9876543210" autocomplete="tel"/>
+    <span class="co-label">Delivery Address</span>
+    <textarea class="co-input" id="coAddress" rows="3" placeholder="Flat / House No., Street, Area, City, Pincode"></textarea>
+    <button class="co-submit" onclick="sendOrder()">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.899l6.188-1.458A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.008-1.374l-.359-.214-3.724.877.945-3.618-.234-.372A9.818 9.818 0 112 12 9.818 9.818 0 0112 21.818z"/></svg>
+      Confirm Order on WhatsApp
+    </button>
+    <p class="co-note">Opens WhatsApp · We'll confirm &amp; share payment details</p>
+  </div>
+</div>
+
+<!-- ══════════ SCRIPT ══════════ -->
+<script>
+/* ── CONFIG — replace with your number ── */
+const WA_NUMBER = '919561720680';
+const PRICES    = {'30ml':199,'50ml':299};
+
+/* ── STATE ── */
+let cart=[];
+let pFlavor='',pEmoji='',pSF=false,pSize='30ml',pQty=1;
+
+/* ── PICKER ── */
+function openPicker(f,e,sf){
+  pFlavor=f;pEmoji=e;pSF=sf;pSize='30ml';pQty=1;
+  document.getElementById('pickerEmoji').textContent=e;
+  document.getElementById('pickerName').textContent=f;
+  document.getElementById('pickerSub').textContent=(sf?'Sugar Free · ':'')+' Coffee Flavor Drop · @getchuski';
+  document.getElementById('pBtn30').classList.add('active');
+  document.getElementById('pBtn50').classList.remove('active');
+  document.getElementById('pickerQty').textContent=1;
+  document.getElementById('pickerBackdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePicker(){
+  document.getElementById('pickerBackdrop').classList.remove('open');
+  document.body.style.overflow='';
+}
+function pickSize(s){
+  pSize=s;
+  document.getElementById('pBtn30').classList.toggle('active',s==='30ml');
+  document.getElementById('pBtn50').classList.toggle('active',s==='50ml');
+}
+function pickQty(d){
+  pQty=Math.max(1,Math.min(20,pQty+d));
+  document.getElementById('pickerQty').textContent=pQty;
+}
+
+/* ── ADD TO CART ── */
+function addToCart(){
+  const id=pFlavor+'-'+pSize;
+  const ex=cart.find(i=>i.id===id);
+  if(ex){ex.qty=Math.min(20,ex.qty+pQty)}
+  else{cart.push({id,flavor:pFlavor,emoji:pEmoji,sf:pSF,size:pSize,qty:pQty,price:PRICES[pSize]})}
+  closePicker();updateCartUI();
+  const b=document.getElementById('cartBadge');
+  b.style.transform='scale(1.5)';setTimeout(()=>b.style.transform='scale(1)',280);
+}
+
+/* ── CART UI ── */
+function updateCartUI(){
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const count=cart.reduce((s,i)=>s+i.qty,0);
+  const badge=document.getElementById('cartBadge');
+  badge.textContent=count;
+  badge.classList.toggle('show',count>0);
+  document.getElementById('cartCount').textContent=count>0?` (${count} item${count>1?'s':''})`:'' ;
+  document.getElementById('checkoutBtn').disabled=cart.length===0;
+
+  const area=document.getElementById('cartItems');
+  if(!cart.length){
+    area.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">☕</div><div class="cart-empty-text">Your cart is empty</div><div class="cart-empty-sub">Add some flavors to get started</div></div>`;
+  } else {
+    area.innerHTML=cart.map((item,i)=>`
+      <div class="cart-item">
+        <div class="ci-emoji">${item.emoji}</div>
+        <div class="ci-info">
+          <div class="ci-name">${item.flavor}${item.sf?' <span style="font-size:.58rem;background:rgba(192,122,58,.1);color:var(--caramel);padding:.1rem .4rem;border-radius:4px;font-family:DM Sans,sans-serif">SF</span>':''}</div>
+          <div class="ci-detail">${item.size} · ₹${item.price} each</div>
+        </div>
+        <div class="ci-right">
+          <div class="ci-price">₹${item.price*item.qty}</div>
+          <div class="ci-qty-row">
+            <button class="ci-qbtn" onclick="chQty(${i},-1)">−</button>
+            <span class="ci-qnum">${item.qty}</span>
+            <button class="ci-qbtn" onclick="chQty(${i},1)">+</button>
+          </div>
+        </div>
+        <button class="ci-remove" onclick="rmItem(${i})">✕</button>
+      </div>`).join('');
+  }
+
+  const tEl=document.getElementById('cartTotals');
+  tEl.innerHTML=count?`
+    <div class="total-row"><span>Subtotal (${count} item${count>1?'s':''})</span><span>₹${total}</span></div>
+    <div class="total-row"><span>Delivery</span><span>To be confirmed</span></div>
+    <div class="total-row grand"><span>Total</span><span>₹${total}</span></div>
+    <div style="margin-bottom:.8rem"></div>`:''
+}
+function chQty(i,d){cart[i].qty=Math.max(1,Math.min(20,cart[i].qty+d));updateCartUI()}
+function rmItem(i){cart.splice(i,1);updateCartUI()}
+
+/* ── CART OPEN/CLOSE ── */
+function openCart(){
+  document.getElementById('cartBackdrop').classList.add('open');
+  document.getElementById('cartDrawer').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCart(){
+  document.getElementById('cartBackdrop').classList.remove('open');
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* ── CHECKOUT ── */
+function openCheckout(){
+  if(!cart.length)return;
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('coSummary').innerHTML=
+    cart.map(item=>`
+      <div class="co-item-row">
+        <div class="co-item-name">
+          ${item.emoji} ${item.flavor}
+          <span class="co-tag">${item.size}</span>
+          ${item.sf?'<span class="co-sf-tag">SF</span>':''}
+          × ${item.qty}
+        </div>
+        <span>₹${item.price*item.qty}</span>
+      </div>`).join('')+
+    `<hr class="co-div"/>
+    <div class="co-total-row">
+      <span class="co-total-label">Total</span>
+      <span class="co-total-val">₹${total}</span>
+    </div>`;
+  closeCart();
+  document.getElementById('coBackdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout(){
+  document.getElementById('coBackdrop').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('coBackdrop').addEventListener('click',function(e){if(e.target===this)closeCheckout()});
+
+/* ── SEND ORDER ── */
+function sendOrder(){
+  const name=document.getElementById('coName').value.trim();
+  const phone=document.getElementById('coPhone').value.trim();
+  const addr=document.getElementById('coAddress').value.trim();
+  if(!name){alert('Please enter your name.');return}
+  if(!phone){alert('Please enter your phone number.');return}
+  if(!addr){alert('Please enter your delivery address.');return}
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const lines=cart.map(item=>`  • ${item.emoji} *${item.flavor}*${item.sf?' (Sugar Free)':''} — ${item.size} × ${item.qty} = ₹${item.price*item.qty}`).join('\n');
+  const msg=[
+    `Hi! I'd like to place an order 🛒`,``,
+    `*Order Details:*`,lines,``,
+    `*Total: ₹${total}*`,``,
+    `*Customer Details:*`,
+    `Name: ${name}`,`Phone: ${phone}`,`Address: ${addr}`,``,
+    `Please confirm my order and share payment details. Thank you! ☕`
+  ].join('\n');
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,'_blank');
+  cart=[];updateCartUI();closeCheckout();
+  document.getElementById('coName').value='';
+  document.getElementById('coPhone').value='';
+  document.getElementById('coAddress').value='';
+}
+
+/* ── CLOSE ON BACKDROP/ESC ── */
+document.getElementById('pickerBackdrop').addEventListener('click',function(e){if(e.target===this)closePicker()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePicker();closeCart();closeCheckout()}});
+
+/* ── SCROLL REVEAL ── */
+const ro=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*100)});
+},{threshold:.1});
+document.querySelectorAll('.step,.benefit-card').forEach(el=>ro.observe(el));
+
+/* ── NAV SHADOW ── */
+const nav=document.getElementById('main-nav');
+window.addEventListener('scroll',()=>{nav.style.boxShadow=scrollY>20?'0 2px 20px rgba(59,39,18,.09)':'none'});
+
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const h=a.getAttribute('href');if(h==='#')return;
+    e.preventDefault();document.querySelector(h)?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+/* ── 3D BOTTLE TILT ── */
+const isMobile = () => window.innerWidth <= 767;
+const btlEls   = Array.from(document.querySelectorAll('.bottle-scene .btl'));
+
+/* DESKTOP — mouse follow */
+document.querySelectorAll('.bottle-scene').forEach(scene => {
+  const btl = scene.querySelector('.btl');
+  scene.addEventListener('mousemove', e => {
+    if (isMobile()) return;
+    const r = scene.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width  - .5) * 22;
+    const y = -((e.clientY - r.top)  / r.height - .5) * 14;
+    btl.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    btl.style.filter = `drop-shadow(0 28px 38px rgba(59,39,18,.22)) drop-shadow(0 8px 12px rgba(59,39,18,.12))`;
+  });
+  scene.addEventListener('mouseleave', () => {
+    if (isMobile()) return;
+    btl.style.transform = '';
+    btl.style.filter    = '';
+  });
+});
+
+/* MOBILE — gyroscope (phone tilt) with smooth lerp */
+let tgX = 0, tgY = 0;   // gyro targets
+let crX = 0, crY = 0;   // current lerped values
+let rafRunning = false;
+let gyroWorking = false;
+
+function applyMobileTilt() {
+  crX += (tgX - crX) * 0.07;
+  crY += (tgY - crY) * 0.07;
+  btlEls.forEach((b, i) => {
+    const off = (i - 1) * 2.5;
+    b.style.transform = `rotateY(${crX + off}deg) rotateX(${crY}deg)`;
+  });
+  if (rafRunning) requestAnimationFrame(applyMobileTilt);
+}
+
+function startMobileRAF() {
+  if (rafRunning) return;
+  rafRunning = true;
+  requestAnimationFrame(applyMobileTilt);
+}
+
+function stopMobileRAF() {
+  rafRunning = false;
+  btlEls.forEach(b => { b.style.transform = ''; b.style.filter = ''; });
+  tgX = 0; tgY = 0; crX = 0; crY = 0;
+}
+
+function onGyro(e) {
+  if (!isMobile()) return;
+  gyroWorking = true;
+  const g = Math.max(-25, Math.min(25, e.gamma || 0));
+  const b = Math.max(-15, Math.min(15, (e.beta  || 0) - 25));
+  tgX = g * 0.5;
+  tgY = b * 0.3;
+}
+
+function initGyro() {
+  if (!isMobile()) return;
+  if (typeof DeviceOrientationEvent === 'undefined') { initScrollFallback(); return; }
+
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    // iOS 13+ — ask on first touch
+    document.addEventListener('touchend', function ask() {
+      DeviceOrientationEvent.requestPermission().then(s => {
+        if (s === 'granted') {
+          window.addEventListener('deviceorientation', onGyro, true);
+          startMobileRAF();
+        } else { initScrollFallback(); }
+      }).catch(() => initScrollFallback());
+      document.removeEventListener('touchend', ask);
+    }, { once: true });
+  } else {
+    window.addEventListener('deviceorientation', onGyro, true);
+    startMobileRAF();
+    // if gyro fires nothing after 1.5s, use scroll fallback
+    setTimeout(() => { if (!gyroWorking && isMobile()) initScrollFallback(); }, 1500);
+  }
+}
+
+/* Scroll fallback if gyro unavailable */
+function initScrollFallback() {
+  if (!isMobile()) return;
+  startMobileRAF();
+  window.addEventListener('scroll', () => {
+    if (!isMobile() || gyroWorking) return;
+    const stage = document.querySelector('.bottles-stage');
+    if (!stage) return;
+    const r  = stage.getBoundingClientRect();
+    const p  = Math.max(-1, Math.min(1, 1 - (r.top + r.height * .5) / window.innerHeight));
+    tgX = p * 12;
+    tgY = Math.abs(p) * -4;
+  }, { passive: true });
+}
+
+if (isMobile()) initGyro();
+
+window.addEventListener('resize', () => {
+  if (!isMobile()) { stopMobileRAF(); }
+  else if (!rafRunning) { gyroWorking = false; initGyro(); }
+}, { passive: true });
+
+updateCartUI();
+</script>
+</body>
+</html>
